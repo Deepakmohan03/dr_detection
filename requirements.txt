@@ -6,4 +6,4 @@ gunicorn
 Werkzeug
 opencv-python
 SQLAlchemy
-psycopg2
+psycopg2-binary
