@@ -6,6 +6,10 @@ import numpy as np
 import PIL
 import os
 
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+tf.config.set_visible_devices([], 'GPU')
+
+
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # Required for session management and flash messages
 
