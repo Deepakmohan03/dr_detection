@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .image-preview {
+            display: none;
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+            object-fit: cover;
+            border: 1px solid #ccc;
+            border-radius: 1px;
+            margin-top: 1px;
+        }
+
+        .form-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 2rem;
+        }
+
+        .form-left {
+            flex: 1;
+        }
+
+        .form-right {
+            flex: 1;
+        }
+
+        .input-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .button-group button {
+            padding: 0.5rem 0.9rem;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="{{ url_for('home') }}" class="navbar-logo">DR Detection</a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="{{ url_for('dashboard') }}" class="nav-link">Dashboard</a></li>
+                <li class="nav-item"><a href="{{ url_for('logout') }}" class="nav-link">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Dashboard Content -->
+    <section class="dashboard-content">
+        <h1>Welcome, <span class="highlight">{{ user_name }}</span>!</h1>
+
+        <!-- Search Bar -->
+        <form class="search-form" action="{{ url_for('dashboard') }}" method="GET">
+            <input
+                type="text"
+                name="search"
+                placeholder="Search patients by name..."
+                value="{{ search_query }}"
+            />
+            <button type="submit">Search</button>
+        </form>
+
+        <!-- Retinopathy Detection Form -->
+        <div class="detection-form">
+            <h2>Diabetic Retinopathy Detection</h2>
+            <div class="form-container">
+                <div class="form-left">
+                    <form id="detection-form" action="{{ url_for('detect_severity') }}" method="POST" enctype="multipart/form-data">
+                        <div class="input-row">
+                            <input
+                                type="text"
+                                name="patient_name"
+                                placeholder="Patient Name"
+                                required
+                            />
+                            <input
+                                type="file"
+                                name="file"
+                                accept="image/*"
+                                required
+                                onchange="previewImage(event)"
+                            />
+                        </div>
+                        <div class="button-group">
+                            <button type="submit" name="action" value="detect">Detect Severity</button>
+                            <button type="submit" name="action" value="add_patient">Add Patient</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="form-right">
+                    <img id="imagePreview" class="image-preview" />
+                </div>
+            </div>
+
+            <!-- Display Prediction Result -->
+            {% if prediction %}
+            <div class="prediction-result">
+                <h3>Detection Result:</h3>
+                <p><strong>Severity:</strong> {{ prediction }}</p>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Patient List -->
+        <div class="patient-list">
+            <h2>Patients</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Severity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for patient in patients %}
+                    <tr>
+                        <td>{{ patient.name }}</td>
+                        <td>{{ patient.severity }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <script>
+        function previewImage(event) {
+            const preview = document.getElementById('imagePreview');
+            const file = event.target.files[0];
+            if (file) {
+                preview.src = URL.createObjectURL(file);
+                preview.style.display = 'block';
+            }
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diabetic Retinopathy Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="{{ url_for('home') }}" class="navbar-logo">DR Detection</a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="{{ url_for('home') }}" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="{{ url_for('about') }}" class="nav-link">About DR</a></li>
+                {% if 'user_id' in session %}
+                    <li class="nav-item"><a href="{{ url_for('dashboard') }}" class="nav-link">Dashboard</a></li>
+                    <li class="nav-item"><a href="{{ url_for('profile') }}" class="nav-link">Profile</a></li>
+                    <li class="nav-item"><a href="{{ url_for('logout') }}" class="nav-link"><button class="nav-btn">Logout</button></a></li>
+                {% else %}
+                    <li class="nav-item"><a href="{{ url_for('login') }}" class="nav-link"><button class="nav-btn">Doctor Login</button></a></li>
+                {% endif %}
+                <!-- Dark Mode Toggle -->
+                <li class="nav-item">
+                    <button class="toggle-theme" onclick="toggleDarkMode()">
+                        <span class="toggle-icon">🌙</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Welcome Section -->
+    <section class="welcome-section">
+        <div class="welcome-content">
+            <h1>Welcome to <span class="highlight">Diabetic Retinopathy Detection</span></h1>
+            <p>AI-powered diabetic retinopathy detection for early diagnosis and better treatment.</p>
+            {% if 'user_id' in session %}
+                <button class="cta-btn" onclick="window.location.href='{{ url_for('dashboard') }}'">Go to Dashboard</button>
+            {% else %}
+                <button class="cta-btn" onclick="window.location.href='{{ url_for('login') }}';">Login to Continue</button>
+            {% endif %}
+        </div>
+    </section>
+
+    <!-- About DR -->
+    <section class="info-section">
+        <div class="info-content">
+            <h2>Understanding Diabetic Retinopathy</h2>
+            <p>Diabetic Retinopathy is a complication of diabetes that affects the eyes. It occurs when high blood sugar levels damage blood vessels in the retina, leading to vision problems and, in severe cases, blindness.</p>
+            <h2>Stages of DR</h2>
+            <ul class="stages-list">
+                <li><strong>Mild DR:</strong> 🟢 Mild – Small retinal swelling, early warning signs.</li>
+                <li><strong>Moderate DR:</strong> 🟡 Moderate – Increased swelling & restricted blood flow.</li>
+                <li><strong>Severe DR:</strong> 🟠 Severe – Significant vessel damage, oxygen deprivation.</li>
+                <li><strong>Proliferative DR:</strong> 🔴 Proliferative – Abnormal new vessels form, risking blindness. </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials-section">
+        <h2>👁️ Protect Your Vision – Detect DR Early!</h2>
+        <div class="testimonial-cards">
+            <div class="testimonial-card">
+                <p>🚀 AI-powered screening enables faster diagnosis, reducing the risk of vision loss.</p>
+            </div>
+            <div class="testimonial-card">
+                <p>🔬 Cutting-edge technology provides accurate detection, supporting better treatment decisions.</p>
+            </div>
+            <div class="testimonial-card">
+                <p>📊 Early intervention leads to improved patient outcomes and long-term eye health.</p>
+            </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- JavaScript -->
+    <script>
+        function toggleDarkMode() {
+            document.body.classList.toggle("dark-mode");
+            localStorage.setItem("darkMode", document.body.classList.contains("dark-mode"));
+            const toggleIcon = document.querySelector(".toggle-icon");
+            if (document.body.classList.contains("dark-mode")) {
+                toggleIcon.textContent = "☀️"; // Sun icon for light mode
+            } else {
+                toggleIcon.textContent = "🌙"; // Moon icon for dark mode
+            }
+        }
+
+        window.onload = function () {
+            if (localStorage.getItem("darkMode") === "true") {
+                document.body.classList.add("dark-mode");
+                document.querySelector(".toggle-icon").textContent = "☀️";
+            }
+        };
+    </script>
+
+</body>
+</html>

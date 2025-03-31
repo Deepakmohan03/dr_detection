@@ -1,0 +1,22 @@
+body {
+    font-family: "Montserrat", sans-serif;
+    background: linear-gradient(to right, #380036, #2C3159);
+    color: white;
+    text-align: center;
+}
+
+.frame {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 50%;
+    margin: auto;
+}
+
+.btn {
+    background: hotpink;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}

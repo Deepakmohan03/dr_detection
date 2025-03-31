@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Diabetic Retinopathy</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="{{ url_for('home') }}" class="navbar-logo">DR Detection</a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="{{ url_for('home') }}" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="{{ url_for('about') }}" class="nav-link">About DR</a></li>
+                {% if 'user_id' in session %}
+                    <li class="nav-item"><a href="{{ url_for('dashboard') }}" class="nav-link">Dashboard</a></li>
+                    <li class="nav-item"><a href="{{ url_for('profile') }}" class="nav-link">Profile</a></li>
+                    <li class="nav-item"><a href="{{ url_for('logout') }}" class="nav-link"><button class="nav-btn">Logout</button></a></li>
+                {% else %}
+                    <li class="nav-item"><a href="{{ url_for('login') }}" class="nav-link"><button class="nav-btn">Doctor Login</button></a></li>
+                {% endif %}
+                <!-- Dark Mode Toggle -->
+                <li class="nav-item">
+                    <button class="toggle-theme" onclick="toggleDarkMode()">
+                        <span class="toggle-icon">🌙</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- About DR Section -->
+    <section class="about-section">
+        <div class="about-content">
+            <h1>About <span class="highlight">Diabetic Retinopathy</span></h1>
+            <p>Diabetic Retinopathy (DR) is a diabetes-related eye disease that damages the retina’s blood vessels. If left untreated, it can lead to vision loss or blindness. Early detection is key to protecting eyesight.</p>
+            
+            <h2>Why Early Detection Matters</h2>
+            <p>Detecting DR in its early stages can prevent severe complications. Timely treatment helps slow or stop progression, preserving vision and improving quality of life.</p>
+
+            <h2>How Our System Works</h2>
+            <p>Our cutting-edge AI scans retinal images to detect signs of DR quickly and accurately, assisting doctors in making informed decisions.</p>
+
+            <h2>Key Features</h2>
+            <ul class="features-list">
+                <li><strong>Precision Diagnosis:</strong> AI-driven deep learning ensures high accuracy.</li>
+                <li><strong>Fast & Efficient:</strong> Results in seconds for quicker medical action.</li>
+                <li><strong>Easy to Use:</strong>  Designed for both specialists and general practitioners.</li>
+                <li><strong>Secure:</strong> Patient information is always protected.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p><a href="{{ url_for('contact') }}" class="footer-link">Contact Us</a></p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        function toggleDarkMode() {
+            document.body.classList.toggle("dark-mode");
+            localStorage.setItem("darkMode", document.body.classList.contains("dark-mode"));
+            const toggleIcon = document.querySelector(".toggle-icon");
+            if (document.body.classList.contains("dark-mode")) {
+                toggleIcon.textContent = "☀️"; // Sun icon for light mode
+            } else {
+                toggleIcon.textContent = "🌙"; // Moon icon for dark mode
+            }
+        }
+
+        window.onload = function () {
+            if (localStorage.getItem("darkMode") === "true") {
+                document.body.classList.add("dark-mode");
+                document.querySelector(".toggle-icon").textContent = "☀️";
+            }
+        };
+    </script>
+
+</body>
+</html>

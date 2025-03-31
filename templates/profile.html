@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Profile</title>
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='profile.css') }}">
+</head>
+<body>
+
+    <nav>
+        <ul class="nav-list">
+            <li class="nav-items"><a href="{{ url_for('home') }}">Home</a></li>
+            <li class="nav-items"><a href="{{ url_for('logout') }}">Logout</a></li>
+        </ul>
+    </nav>
+
+    <div class="profile-container">
+        <img src="{{ url_for('static', filename='profile-pic.png') }}" class="profile-pic">
+        <h2>{{ user['name'] }}</h2>
+        <p>Email: {{ user['email'] }}</p>
+
+        <button onclick="toggleDarkMode()">Toggle Dark Mode</button>
+    </div>
+
+    <script>
+        function toggleDarkMode() {
+            document.body.classList.toggle("dark-mode");
+        }
+    </script>
+
+</body>
+</html>
